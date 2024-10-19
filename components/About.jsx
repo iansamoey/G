@@ -11,14 +11,9 @@ const About = () => {
           </div>
         </div>
         <div className="md:w-1/2 ">
-          <Title addClass="text-[40px]">We Are Feane</Title>
+          <Title addClass="text-[40px]">We Are Georgia Essays</Title>
           <p className="my-5 flex flex-col items-center">
-            There are many variations of passages of Lorem Ipsum available, but
-            the majority have suffered alteration in some form, by injected
-            humour, or randomised words which don`t look even slightly
-            believable. If you are going to use a passage of Lorem Ipsum, you
-            need to be sure there isn`t anything embarrassing hidden in the
-            middle of text. All
+          Welcome to Academic Assist Georgia, your premier destination for academic support in Georgia. Our mission is to provide students with top-notch academic assistance tailored to their needs, ensuring academic success and growth.
           </p>
           <button className="btn-primary">Read More</button>
         </div>

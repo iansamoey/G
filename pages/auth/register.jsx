@@ -99,7 +99,7 @@ const Register = () => {
           </button>
           <Link href="/auth/login">
             <span className="text-sm underline cursor-pointer text-secondary">
-              Do you have a account?
+             Create an Account?
             </span>
           </Link>
         </div>

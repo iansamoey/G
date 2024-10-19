@@ -38,24 +38,19 @@ const Carousel = () => {
       <Slider {...settings}>
         <div>
           <div className="mt-48  text-white flex flex-col items-start gap-y-10">
-            <Title addClass="text-6xl">Fast Food Restaurant</Title>
+            <Title addClass="text-6xl">We Provide Professional
+            Academic Help.</Title>
             <p className="text-sm sm:w-2/5 w-full">
-              Doloremque, itaque aperiam facilis rerum, commodi, temporibus
-              sapiente ad mollitia laborum quam quisquam esse error unde.
-              Tempora ex doloremque, labore, sunt repellat dolore, iste magni
-              quos nihil ducimus libero ipsam.
+            Our tutors are highly qualified professionals dedicated to your academic success .They offer tailored Support understanding that every student has unique needs, and we tailor our services accordingly at affordable Rates.
             </p>
             <button className="btn-primary">Order Now</button>
           </div>
         </div>
         <div>
           <div className="relative text-white top-48 flex flex-col items-start gap-y-10">
-            <Title addClass="text-6xl">Fast Food Restaurant</Title>
+            <Title addClass="text-6xl">Our Goal</Title>
             <p className="text-sm sm:w-2/5 w-full">
-              Doloremque, itaque aperiam facilis rerum, commodi, temporibus
-              sapiente ad mollitia laborum quam quisquam esse error unde.
-              Tempora ex doloremque, labore, sunt repellat dolore, iste magni
-              quos nihil ducimus libero ipsam.
+            Comprehensive support for students undertaking research projects, including topic selection, literature review, methodology, and data analysis
             </p>
             <button className="btn-primary">Order Now</button>
           </div>

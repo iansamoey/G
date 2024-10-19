@@ -55,12 +55,12 @@ const Reservation = () => {
     },
     {
       id: 4,
-      name: "persons",
-      type: "number",
-      placeholder: "How Many Persons?",
-      value: values.persons,
-      errorMessage: errors.persons,
-      touched: touched.persons,
+      name: "papers",
+      type: "text",
+      placeholder: "Type of paper",
+      value: values.papers,
+      errorMessage: errors.papers,
+      touched: touched.papers,
     },
     {
       id: 5,
@@ -74,7 +74,7 @@ const Reservation = () => {
 
   return (
     <div className="container mx-auto py-12">
-      <Title addClass="text-[40px] mb-10">Book A Table</Title>
+      <Title addClass="text-[40px] mb-10">Send us a Message</Title>
       <div className="flex justify-between flex-wrap-reverse gap-10">
         <form className="lg:flex-1 w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-y-3">
@@ -88,7 +88,7 @@ const Reservation = () => {
             ))}
           </div>
           <button className="btn-primary mt-4" type="submit">
-            BOOK NOW
+            SEND
           </button>
         </form>
         <div className="lg:flex-1 w-full">
