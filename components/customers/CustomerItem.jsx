@@ -5,7 +5,7 @@ const CustomerItem = ({ imgSrc }) => {
     <div className="mt-5 mx-4">
       <div className="p-6 bg-secondary text-white rounded-[5px]">
         <p>
-        Academic Assist Georgia has been a lifesaver! Their work is brilliant, and I've seen a significant improvement in my grades.
+          Academic Assist Georgia has been a lifesaver! Their work is brilliant, and I&apos;ve seen a significant improvement in my grades.
         </p>
         <div className="flex flex-col mt-4">
           <span className="text-lg font-semibold">Moana Michell</span>
