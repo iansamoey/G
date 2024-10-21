@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const Cart = ({ userList }) => {
   const { data: session } = useSession();
@@ -33,6 +33,28 @@ const Cart = ({ userList }) => {
     });
     setProductState(productTitles);
   }, [cart.products]);
+
+  // Memoized createOrder function to avoid recreating it on every render
+  const createOrder = useCallback(async () => {
+    try {
+      if (session) {
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/orders`,
+          newOrder
+        );
+        if (res.status === 201) {
+          router.push(`/order/${res.data._id}`);
+          dispatch(reset());
+          toast.success("Order created successfully");
+        }
+      } else {
+        router.push("/auth/login");
+        throw new Error("You must be logged in to create an order");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }, [newOrder, session, router, dispatch]);
 
   useEffect(() => {
     // Load PayPal SDK
@@ -63,35 +85,14 @@ const Cart = ({ userList }) => {
         }).render('#paypal-button-container');
       }
     };
-  }, [cart.total]);
+  }, [cart.total, createOrder]);  // Added createOrder to the dependency array
 
-  const createOrder = async () => {
-    try {
-      if (session) {
-        const res = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/orders`,
-          newOrder
-        );
-        if (res.status === 201) {
-          router.push(`/order/${res.data._id}`);
-          dispatch(reset());
-          toast.success("Order created successfully");
-        }
-      } else {
-        router.push("/auth/login");
-        throw new Error("You must be logged in to create an order");
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  const quantityChange = (type, price) => {
+  const quantityChange = (type, product) => {
     if (type === 0) {
-      dispatch(quantityDecrease(price));
+      dispatch(quantityDecrease(product.price));
     }
     if (type === 1) {
-      dispatch(quantityIncrease(price));
+      dispatch(quantityIncrease(product.price));
     }
   };
 
