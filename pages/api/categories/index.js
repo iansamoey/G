@@ -10,17 +10,21 @@ const handler = async (req, res) => {
       const categories = await Category.find();
       res.status(200).json(categories);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching categories:", err);
+      res.status(500).json({ message: "Failed to fetch categories" });
     }
-  }
-
-  if (method === "POST") {
+  } else if (method === "POST") {
     try {
       const newCategory = await Category.create(req.body);
-      res.status(200).json(newCategory);
+      res.status(201).json(newCategory); // 201 Created
     } catch (err) {
-      console.log(err);
+      console.error("Error creating category:", err);
+      res.status(400).json({ message: "Failed to create category", error: err.message });
     }
+  } else {
+    // Handle unsupported HTTP methods
+    res.setHeader("Allow", ["GET", "POST"]);
+    res.status(405).end(`Method ${method} Not Allowed`);
   }
 };
 
