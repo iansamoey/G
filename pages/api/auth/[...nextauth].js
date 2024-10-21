@@ -6,10 +6,10 @@ import clientPromise from "../../../util/mongo";
 import User from "../../../models/User";
 import dbConnect from "../../../util/dbConnect";
 import bcrypt from "bcryptjs";
+
 dbConnect();
 
 export default NextAuth({
-  /*  adapter: MongoDBAdapter(clientPromise), */
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID,
@@ -17,7 +17,6 @@ export default NextAuth({
     }),
     CredentialsProvider({
       name: "Credentials",
-
       credentials: {
         username: { label: "Username", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
@@ -29,9 +28,7 @@ export default NextAuth({
         if (!user) {
           throw new Error("You haven't registered yet!");
         }
-        if (user) {
-          return signInUser({ user, password });
-        }
+        return signInUser({ user, password });
       },
     }),
   ],
@@ -39,12 +36,12 @@ export default NextAuth({
     signIn: "/auth/login",
   },
   database: process.env.MONGODB_URI,
-  secret: "secret",
+  secret: process.env.NEXTAUTH_SECRET,  // <-- Add this line
 });
 
 const signInUser = async ({ user, password }) => {
-  const isMAtch = await bcrypt.compare(password, user.password);
-  if (!isMAtch) {
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
     throw new Error("Incorrect password!");
   }
   return user;

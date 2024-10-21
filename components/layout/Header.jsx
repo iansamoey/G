@@ -42,7 +42,7 @@ const Header = () => {
               }`}
               onClick={() => setIsMenuModal(false)}
             >
-              <Link href="/menu">Menu</Link>
+              <Link href="/menu">Services</Link>
             </li>
             <li
               className={`px-[5px] py-[10px] uppercase hover:text-primary cursor-pointer ${

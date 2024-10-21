@@ -36,20 +36,25 @@ const Order = () => {
       console.log(error);
     }
   };
-  const handleStatusPrior = async (id) => {
-    const item = orders.find((order) => order._id === id);
-    const currentStatus = item.status;
 
+  const handleRefund = async (id) => {
     try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders/${id}`,
-        { status: currentStatus - 1 }
-      );
-      setOrders([res.data, ...orders.filter((order) => order._id !== id)]);
+      const order = orders.find((order) => order._id === id);
+      if (order.method === 1) { // Only process refunds for card payments
+        const res = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/refund/${id}` // Assuming a refund API exists
+        );
+        if (res.status === 200) {
+          toast.success("Refund successful!");
+        }
+      } else {
+        toast.error("Cash orders cannot be refunded");
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this order?")) {
       try {
@@ -68,7 +73,7 @@ const Order = () => {
 
   return (
     <div className="lg:p-8 flex-1 lg:mt-0 mt-5  lg:max-w-[70%] xl:max-w-none flex flex-col justify-center">
-      <Title addClass="text-[40px]">Products</Title>
+      <Title addClass="text-[40px]">Orders</Title>
       <div className="overflow-x-auto w-full mt-5">
         <table className="w-full text-sm text-center text-gray-500">
           <thead className="text-xs text-gray-400 uppercase bg-gray-700">
@@ -90,6 +95,9 @@ const Order = () => {
               </th>
               <th scope="col" className="py-3 px-6">
                 PAYMENT
+              </th>
+              <th scope="col" className="py-3 px-6">
+                TRANSACTION ID
               </th>
               <th scope="col" className="py-3 px-6">
                 STATUS
@@ -114,7 +122,7 @@ const Order = () => {
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       {order?.customer}
                     </td>
-                    <td className="py-4 px-6 font-medium  hover:text-white flex-wrap w-[100px] whitespace-nowrap">
+                    <td className="py-4 px-6 font-medium hover:text-white">
                       {order?.products.map((product, index) => (
                         <span key={index}>
                           {product.title} * {product.foodQuantity} <br />
@@ -122,24 +130,24 @@ const Order = () => {
                       ))}
                     </td>
                     <td className="py-4 font-medium hover:text-white">
-                      {order?.products.map((item) => {
-                        return (
-                          <div key={item._id}>
-                            {item.extras &&
-                              item.extras.length > 0 &&
-                              item.extras.map((extra) => (
-                                <span key={extra._id}>{extra.text}, </span>
-                              ))}
-                          </div>
-                        );
-                      })}
+                      {order?.products.map((item) => (
+                        <div key={item._id}>
+                          {item.extras &&
+                            item.extras.length > 0 &&
+                            item.extras.map((extra) => (
+                              <span key={extra._id}>{extra.text}, </span>
+                            ))}
+                        </div>
+                      ))}
                     </td>
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       ${order?.total}
                     </td>
-
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       {order?.method === 0 ? "Cash" : "Card"}
+                    </td>
+                    <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
+                      {order?.transactionId || "N/A"}
                     </td>
                     <td className="py-4 px-6 font-medium whitespace-nowrap hover:text-white">
                       {status[order?.status]}
@@ -165,6 +173,14 @@ const Order = () => {
                       >
                         Next Stage
                       </button>
+                      {order?.method === 1 && (
+                        <button
+                          className="btn-primary !bg-red-600 w-24 !pl-0 !pr-0"
+                          onClick={() => handleRefund(order?._id)}
+                        >
+                          Refund
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
