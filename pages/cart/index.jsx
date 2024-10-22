@@ -63,7 +63,7 @@ const Cart = ({ userList }) => {
         }).render('#paypal-button-container');
       }
     };
-  }, [cart.total]);
+  }, [cart.total]); // Add cart.total as a dependency
 
   const createOrder = async () => {
     try {
@@ -82,7 +82,7 @@ const Cart = ({ userList }) => {
         throw new Error("You must be logged in to create an order");
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message || "Something went wrong");
     }
   };
 
